@@ -42,6 +42,15 @@ The scripts locate Visual Studio automatically and use the `Release (MOD)`
 configuration. A Portuguese guide is available in
 [`README_PT-BR.md`](README_PT-BR.md).
 
+The confirmed local environment is Visual Studio 2026 with toolset `v145`.
+The GitHub Actions workflow also verifies x64 and x86 builds on the Windows
+runner with toolset `v143`. Other Visual Studio versions may require changing
+`PlatformToolset` in `build_common.bat` or in the workflow.
+
+Compiler warnings inherited from the legacy codebase are expected. The build
+is considered successful only when the final DLL exists. Locally compiled DLLs
+are not digitally signed.
+
 ## VapourSynth usage
 
 ```text

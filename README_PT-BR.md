@@ -49,6 +49,11 @@ Use a arquitetura correspondente ao aplicativo que carregará o filtro.
 - As DLLs geradas localmente não terão assinatura digital.
 - Avisos do compilador herdados do código legado podem aparecer; o script só considera
   a operação bem-sucedida quando a DLL final existe.
+- O ambiente local confirmado é o Visual Studio 2026 com o toolset `v145`.
+- O GitHub Actions verifica automaticamente as compilações x64 e x86 no runner
+  Windows com o toolset `v143`.
+- Outras versões do Visual Studio podem exigir a alteração de `PlatformToolset`
+  em `build_common.bat`.
 
 ## Licença
 
