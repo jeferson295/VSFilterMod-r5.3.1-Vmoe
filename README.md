@@ -3,6 +3,9 @@
 VSFilterMod r5.3.1 with the Vmoe subtitle tags from computerfan's
 `r5.2.7-beta` ported to the current Masaiki codebase.
 
+The exact upstream commits, feature provenance, adapted files, and validation
+status are recorded in [`PORTING.md`](PORTING.md).
+
 ## Vmoe tags
 
 - `\ortho0` / `\ortho1` — perspective or orthographic projection
@@ -70,7 +73,7 @@ vsfm.VobSub(clip clip, string file)
 
 ## Base projects and credits
 
-- [Masaiki/VSFilterMod](https://github.com/Masaiki/VSFilterMod) — r5.3.1 base
+- [Masaiki/VSFilterMod r5.3.1](https://github.com/Masaiki/VSFilterMod/tree/effb5a7a5e1aa34dc8023cd03e66acc7f6527bc1) — source base
 - [computerfan/VSFilterMod r5.2.7-beta](https://github.com/computerfan/VSFilterMod/releases/tag/r5.2.7-beta) — Vmoe features
 - [sorayuki/VSFilterMod](https://github.com/sorayuki/VSFilterMod)
 - [teplofizik/VSFilterMod](https://github.com/teplofizik/vsfiltermod)

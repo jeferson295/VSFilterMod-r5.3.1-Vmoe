@@ -3,6 +3,9 @@
 Esta é a base `VSFilterMod-r5.3.1` com as funcionalidades da seção
 “New tags in Vmoe mod” portadas da `r5.2.7-beta`.
 
+Os commits exatos de origem, arquivos adaptados e estado da validação estão
+registrados em [`PORTING.md`](PORTING.md).
+
 ## Tags incluídas
 
 - `\ortho0` e `\ortho1`: projeção em perspectiva ou ortogonal;
