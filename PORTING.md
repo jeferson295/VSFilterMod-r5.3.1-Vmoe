@@ -63,6 +63,15 @@ they are not presented as part of either upstream tag.
   `\blend` are maintained under `tests/`.
 - Reference frame hashes are not considered stable until two clean runs in the
   same documented environment agree.
+- Two clean x64 runs of all 16 fixtures matched on Windows 10 build 19045 with
+  VapourSynth R69, the `v145` build, and Arial
+  `c9b76220a5be42ead4733611e417cd65c5fd8aeaa33eb56576ac378a37d130a1`.
+  These environment-specific hashes are recorded in the generated test report,
+  not committed as universal reference values.
+- A computerfan `r5.2.7-beta` x64 reference compiled with `v145` terminated the
+  VapourSynth process with native status `0xC0000409` before rendering its first
+  frame. The suspected `\ortho1` difference therefore remains unconfirmed by a
+  valid reference render and no functional correction has been made.
 - Functional x86 rendering requires a compatible 32-bit host and is tracked
   separately from the x86 compilation check.
 
