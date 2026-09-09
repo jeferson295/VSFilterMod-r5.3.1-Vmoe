@@ -66,6 +66,15 @@ Compiler warnings inherited from the legacy codebase are expected. The build
 is considered successful only when the final DLL exists. Locally compiled DLLs
 are not digitally signed.
 
+To build both architectures and create a ZIP with a SHA-256 checksum, run:
+
+```powershell
+.\package_release.ps1
+```
+
+Use `-Toolset v143` or `-Toolset v145` to select an installed toolset. The
+package is written to the dedicated `release-output` directory by default.
+
 ## VapourSynth usage
 
 ```text

@@ -68,6 +68,18 @@ Use a arquitetura correspondente ao aplicativo que carregará o filtro.
   validado neste port.
 - O GitHub Actions permanece fixo em `v143` para garantir reprodutibilidade.
 
+## Empacotamento
+
+Para compilar as duas arquiteturas e criar um ZIP acompanhado de seu checksum
+SHA-256, execute:
+
+```powershell
+.\package_release.ps1
+```
+
+Use `-Toolset v143` ou `-Toolset v145` para selecionar um toolset instalado. Por
+padrão, o pacote é salvo no diretório dedicado `release-output`.
+
 ## Licença
 
 O código preserva a licença GPL e os avisos de autoria da distribuição original.
