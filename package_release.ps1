@@ -30,8 +30,12 @@ New-Item -ItemType Directory -Path (Join-Path $stagingRoot 'x64') -Force | Out-N
 
 try {
     $buildScript = Join-Path $repositoryRoot 'build_all.bat'
-    $buildArguments = if ($Toolset) { @($Toolset) } else { @() }
-    & $buildScript @buildArguments
+    if ($Toolset) {
+        & $buildScript $Toolset
+    }
+    else {
+        & $buildScript
+    }
     if ($LASTEXITCODE -ne 0) {
         throw "Build failed with exit code $LASTEXITCODE."
     }
