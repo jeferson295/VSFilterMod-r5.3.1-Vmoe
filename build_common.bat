@@ -1,8 +1,9 @@
 @echo off
-setlocal EnableExtensions
+setlocal EnableExtensions EnableDelayedExpansion
 pushd "%~dp0"
 
 set "TARGET_PLATFORM=%~1"
+set "PLATFORM_TOOLSET=%~2"
 if /i "%TARGET_PLATFORM%"=="x64" (
   set "TARGET_ARCH=x64"
   set "DIST_ARCH=x64"
@@ -52,6 +53,27 @@ if not defined VCToolsInstallDir (
   goto :fail
 )
 
+if not defined PLATFORM_TOOLSET set "PLATFORM_TOOLSET=%VSFILTERMOD_TOOLSET%"
+if not defined PLATFORM_TOOLSET (
+  for /f "tokens=1,2 delims=." %%A in ("%VCToolsVersion%") do set "VCTOOLS_MINOR=%%B"
+  if not defined VCTOOLS_MINOR (
+    echo ERRO: nao foi possivel detectar a versao das ferramentas C++.
+    echo Informe o toolset explicitamente, por exemplo: build_x64.bat v143
+    goto :fail
+  )
+  if !VCTOOLS_MINOR! GEQ 50 (
+    set "PLATFORM_TOOLSET=v145"
+  ) else if !VCTOOLS_MINOR! GEQ 30 (
+    set "PLATFORM_TOOLSET=v143"
+  ) else if !VCTOOLS_MINOR! GEQ 20 (
+    set "PLATFORM_TOOLSET=v142"
+  ) else (
+    echo ERRO: ferramentas MSVC nao reconhecidas: %VCToolsVersion%
+    echo Informe VSFILTERMOD_TOOLSET ou passe o toolset ao script.
+    goto :fail
+  )
+)
+
 if not exist "%VCToolsInstallDir%atlmfc\include\afx.h" (
   echo ERRO: bibliotecas MFC nao encontradas.
   echo Abra o Visual Studio Installer e instale:
@@ -61,10 +83,10 @@ if not exist "%VCToolsInstallDir%atlmfc\include\afx.h" (
 
 echo Visual Studio: %VS_PATH%
 echo Plataforma:    %TARGET_PLATFORM%
-echo Toolset:       v145
+echo Toolset:       %PLATFORM_TOOLSET%
 echo.
 
-msbuild "VSFilterMod.sln" /m /t:Rebuild /p:Configuration="Release (MOD)" /p:Platform=%TARGET_PLATFORM% /p:PlatformToolset=v145 /v:minimal
+msbuild "VSFilterMod.sln" /m /t:Rebuild /p:Configuration="Release (MOD)" /p:Platform=%TARGET_PLATFORM% /p:PlatformToolset=%PLATFORM_TOOLSET% /p:WindowsTargetPlatformVersion=10.0 /v:minimal
 if errorlevel 1 goto :fail
 
 set "BUILT_DLL=bin\%TARGET_PLATFORM%\VSFilter\Release (MOD)\VSFilterMod.dll"

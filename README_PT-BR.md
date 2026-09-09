@@ -18,10 +18,10 @@ Os modos textuais aceitos são `over`, `add`, `sub`, `mult`, `scr` e `diff`.
 ## Ambiente necessário
 
 - Windows 10 ou mais recente;
-- Visual Studio 2026 com “Desenvolvimento para Desktop com C++”;
+- Visual Studio com “Desenvolvimento para Desktop com C++”;
 - componente “C++ MFC para as ferramentas de build x64/x86 mais recentes”;
-- Windows SDK;
-- toolset `v145`.
+- Windows 10 SDK;
+- um toolset MSVC compatível instalado.
 
 Os scripts localizam o Visual Studio automaticamente e configuram seu ambiente.
 Não é necessário abrir previamente o Native Tools Command Prompt.
@@ -35,6 +35,16 @@ build_x64.bat
 build_x86.bat
 build_all.bat
 ```
+
+Os scripts detectam `v145`, `v143` ou `v142` a partir das ferramentas MSVC
+ativas. Se houver mais de um toolset instalado, ele pode ser informado:
+
+```bat
+build_x64.bat v143
+build_all.bat v145
+```
+
+Também é possível definir `VSFILTERMOD_TOOLSET` antes de executar o script.
 
 `build_all.bat` compila as duas arquiteturas. Os resultados são copiados para:
 
@@ -52,11 +62,11 @@ Use a arquitetura correspondente ao aplicativo que carregará o filtro.
 - As DLLs geradas localmente não terão assinatura digital.
 - Avisos do compilador herdados do código legado podem aparecer; o script só considera
   a operação bem-sucedida quando a DLL final existe.
-- O ambiente local confirmado é o Visual Studio 2026 com o toolset `v145`.
-- O GitHub Actions verifica automaticamente as compilações x64 e x86 no runner
-  Windows com o toolset `v143`.
-- Outras versões do Visual Studio podem exigir a alteração de `PlatformToolset`
-  em `build_common.bat`.
+- Os ambientes confirmados são Visual Studio 2026 com `v145` localmente e
+  Visual Studio 2022 com `v143` no GitHub Actions.
+- Os projetos ainda declaram `v142`, como no upstream, mas esse toolset não foi
+  validado neste port.
+- O GitHub Actions permanece fixo em `v143` para garantir reprodutibilidade.
 
 ## Licença
 

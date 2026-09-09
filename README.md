@@ -22,9 +22,10 @@ Tag documentation: [New tags in Vmoe mod](https://github.com/computerfan/VSFilte
 
 Requirements:
 
-- Visual Studio 2026 with Desktop development with C++
+- Visual Studio with Desktop development with C++
 - MFC for the latest x64/x86 build tools
-- Windows SDK and the `v145` toolset
+- Windows 10 SDK
+- an installed MSVC toolset compatible with the selected Visual Studio
 
 Run one of the included scripts:
 
@@ -33,6 +34,17 @@ build_x64.bat
 build_x86.bat
 build_all.bat
 ```
+
+The scripts detect `v145`, `v143`, or `v142` from the active MSVC tools. An
+explicit toolset can be supplied when more than one is installed:
+
+```bat
+build_x64.bat v143
+build_all.bat v145
+```
+
+The `VSFILTERMOD_TOOLSET` environment variable is also accepted when no
+argument is provided.
 
 The resulting files are copied to:
 
@@ -45,10 +57,10 @@ The scripts locate Visual Studio automatically and use the `Release (MOD)`
 configuration. A Portuguese guide is available in
 [`README_PT-BR.md`](README_PT-BR.md).
 
-The confirmed local environment is Visual Studio 2026 with toolset `v145`.
-The GitHub Actions workflow also verifies x64 and x86 builds on the Windows
-runner with toolset `v143`. Other Visual Studio versions may require changing
-`PlatformToolset` in `build_common.bat` or in the workflow.
+Confirmed environments are Visual Studio 2026 with `v145` locally and Visual
+Studio 2022 with `v143` in GitHub Actions. The project files retain the upstream
+`v142` setting, but that toolset has not been validated for this port. The CI
+workflow remains fixed to `v143` for reproducibility.
 
 Compiler warnings inherited from the legacy codebase are expected. The build
 is considered successful only when the final DLL exists. Locally compiled DLLs
