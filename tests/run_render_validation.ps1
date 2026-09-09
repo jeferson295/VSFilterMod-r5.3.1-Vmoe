@@ -35,7 +35,7 @@ function Invoke-RenderSet {
         $env:VSFILTERMOD_ASS = $fixture
         $env:VSFILTERMOD_SAMPLE = $sample
         $output = Join-Path $target "$sample.y4m"
-        & $vspipe --y4m $script $output
+        & $vspipe --container y4m $script $output
         if ($LASTEXITCODE -ne 0 -or -not (Test-Path -LiteralPath $output)) {
             throw "Render failed for $Name/$sample"
         }
