@@ -74,7 +74,7 @@ Para compilar as duas arquiteturas e criar um ZIP acompanhado de seu checksum
 SHA-256, execute:
 
 ```powershell
-.\package_release.ps1
+.\package_release.ps1 -Version r5.3.1-Vmoe.1
 ```
 
 Use `-Toolset v143` ou `-Toolset v145` para selecionar um toolset instalado. Por

@@ -82,5 +82,6 @@ The existing `r5.3.1-Vmoe` tag points to the initial port commit
 unchanged even though `main` later gained build verification and documentation.
 
 After the audit and functional validation are approved, the planned follow-up
-prerelease is `r5.3.1-Vmoe.1`, pointing to the final audited commit. Creating
-that tag is outside the scope of the current changes.
+prerelease is `r5.3.1-Vmoe.1`, pointing to the final audited commit. The tag is
+not created until the audited `main` state and release package receive final
+approval.

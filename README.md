@@ -69,7 +69,7 @@ are not digitally signed.
 To build both architectures and create a ZIP with a SHA-256 checksum, run:
 
 ```powershell
-.\package_release.ps1
+.\package_release.ps1 -Version r5.3.1-Vmoe.1
 ```
 
 Use `-Toolset v143` or `-Toolset v145` to select an installed toolset. The

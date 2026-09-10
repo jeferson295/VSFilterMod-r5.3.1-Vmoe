@@ -1,5 +1,9 @@
 [CmdletBinding()]
 param(
+    [Parameter(Mandatory)]
+    [ValidatePattern('^r\d+\.\d+\.\d+-Vmoe(?:\.\d+)?$')]
+    [string] $Version,
+
     [ValidatePattern('^v\d{3}$')]
     [string] $Toolset,
 
@@ -12,7 +16,7 @@ $repositoryRoot = [System.IO.Path]::GetFullPath($PSScriptRoot)
 $outputRoot = [System.IO.Path]::GetFullPath($OutputDirectory)
 $temporaryRoot = [System.IO.Path]::GetFullPath([System.IO.Path]::GetTempPath())
 $stagingRoot = Join-Path $temporaryRoot ("VSFilterMod-package-{0}" -f [guid]::NewGuid().ToString('N'))
-$archiveName = 'VSFilterMod-r5.3.1-Vmoe-binaries.zip'
+$archiveName = "VSFilterMod-$Version-binaries.zip"
 $archivePath = Join-Path $outputRoot $archiveName
 $checksumPath = "$archivePath.sha256"
 
