@@ -48,10 +48,24 @@ try {
         }
     }
 
+    $releaseDocuments = @(
+        'README.md',
+        'README_PT-BR.md',
+        'PORTING.md',
+        'LICENSE'
+    )
+    foreach ($document in $releaseDocuments) {
+        $documentPath = Join-Path $repositoryRoot $document
+        if (-not (Test-Path -LiteralPath $documentPath -PathType Leaf)) {
+            throw "Required release document was not found: $documentPath"
+        }
+    }
+
     Copy-Item -LiteralPath $x86Dll -Destination (Join-Path $stagingRoot 'x86\VSFilterMod.dll')
     Copy-Item -LiteralPath $x64Dll -Destination (Join-Path $stagingRoot 'x64\VSFilterMod.dll')
-    Copy-Item -LiteralPath (Join-Path $repositoryRoot 'README.md') -Destination $stagingRoot
-    Copy-Item -LiteralPath (Join-Path $repositoryRoot 'README_PT-BR.md') -Destination $stagingRoot
+    foreach ($document in $releaseDocuments) {
+        Copy-Item -LiteralPath (Join-Path $repositoryRoot $document) -Destination $stagingRoot
+    }
 
     Compress-Archive -Path (Join-Path $stagingRoot '*') -DestinationPath $archivePath -CompressionLevel Optimal
     $hash = (Get-FileHash -LiteralPath $archivePath -Algorithm SHA256).Hash.ToLowerInvariant()
