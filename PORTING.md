@@ -20,6 +20,7 @@ The individual feature commits in that history are:
 | Feature | Source commit |
 |---|---|
 | `\ortho` | [`d9c053682b9d31325a194636b3484e985640445f`](https://github.com/computerfan/VSFilterMod/commit/d9c053682b9d31325a194636b3484e985640445f) |
+| `\ortho` SSE2 correction | [`7563c997b62acc1908d10943cdb2a59520110cc8`](https://github.com/computerfan/VSFilterMod/commit/7563c997b62acc1908d10943cdb2a59520110cc8) |
 | `\fshp` | [`2c22244a77266e12647fca8363c5985422286399`](https://github.com/computerfan/VSFilterMod/commit/2c22244a77266e12647fca8363c5985422286399) |
 | `\xblur` and `\yblur` | [`582e14b59bb667cceb2394f51bf9f81d544a3243`](https://github.com/computerfan/VSFilterMod/commit/582e14b59bb667cceb2394f51bf9f81d544a3243) |
 | original `\blend` implementation | [`cc0dabd3dd395c19dbc712ae702dd2589a8eeab0`](https://github.com/computerfan/VSFilterMod/commit/cc0dabd3dd395c19dbc712ae702dd2589a8eeab0) |
@@ -63,15 +64,24 @@ they are not presented as part of either upstream tag.
   `\blend` are maintained under `tests/`.
 - Reference frame hashes are not considered stable until two clean runs in the
   same documented environment agree.
-- Two clean x64 runs of all 16 fixtures matched on Windows 10 build 19045 with
-  VapourSynth R69, the `v145` build, and Arial
-  `c9b76220a5be42ead4733611e417cd65c5fd8aeaa33eb56576ac378a37d130a1`.
-  These environment-specific hashes are recorded in the generated test report,
-  not committed as universal reference values.
-- A computerfan `r5.2.7-beta` x64 reference compiled with `v145` terminated the
-  VapourSynth process with native status `0xC0000409` before rendering its first
-  frame. The suspected `\ortho1` difference therefore remains unconfirmed by a
-  valid reference render and no functional correction has been made.
+- Two clean x64 runs of all 16 fixtures matched with VapourSynth R73 x64. The
+  computerfan `r5.2.7-beta` x64 DLL also rendered all 16 cases successfully in
+  that environment.
+- The initial port incorporated the original `\ortho` implementation from
+  `d9c053682b9d31325a194636b3484e985640445f`, but missed the later SSE2 fix in
+  `7563c997b62acc1908d10943cdb2a59520110cc8`. As a result, an unconditional
+  depth calculation overwrote the zero depth selected by `\ortho1` in the SSE2
+  path. The port now includes that correction. The scalar path was already
+  correct.
+- Against computerfan `r5.2.7-beta`, the corrected `\ortho1` output differs by
+  326 bytes with a maximum byte difference of one level, instead of 17,098
+  bytes with a maximum difference of 129 levels. `\ortho0` remains at 191 bytes
+  with a maximum difference of one level. See `tests/README.md` for the complete
+  validation summary.
+- An earlier VapourSynth R69 test ended with native status `0xC0000409` while
+  loading a separately compiled reference DLL. This was an environment-specific
+  historical limitation; the official x64 reference DLL completed normally
+  under VapourSynth R73.
 - Functional x86 rendering requires a compatible 32-bit host and is tracked
   separately from the x86 compilation check.
 
@@ -81,7 +91,8 @@ The existing `r5.3.1-Vmoe` tag points to the initial port commit
 `0f01dea90f70069b2f7a34cd34e82f5d092efad9`. It intentionally remains
 unchanged even though `main` later gained build verification and documentation.
 
-After the audit and functional validation are approved, the planned follow-up
-prerelease is `r5.3.1-Vmoe.1`, pointing to the final audited commit. The tag is
-not created until the audited `main` state and release package receive final
-approval.
+The `r5.3.1-Vmoe.1` prerelease points to
+`d61e0ca1365d4410312c40dd68ed2a274495eab5` and preserves the state published
+before the SSE2 `\ortho1` correction. The next planned revision is
+`r5.3.1-Vmoe.2`; its tag and release are not created until the correction,
+validation, documentation, and package receive final approval.

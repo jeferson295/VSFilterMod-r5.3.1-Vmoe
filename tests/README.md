@@ -48,11 +48,33 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tests/run_render_validation.
 - horizontal spacing covers zero, positive, negative, and animated values;
 - blend covers every documented textual mode on overlapping colored shapes.
 
-The current build produces different results for `\ortho0` and `\ortho1`. The
-computerfan reference could not be compared because it terminated VapourSynth
-with native status `0xC0000409`. There is therefore not enough evidence to call
-the current behavior a regression. Do not change renderer code without a valid
-reference comparison.
+## Validated `\ortho` SSE2 correction
+
+The final comparison used VapourSynth R73 x64, the current x64 build, and the
+official computerfan `r5.2.7-beta` x64 DLL. All 16 cases completed. Two clean
+current-build executions produced identical output for every case.
+
+Before the SSE2 correction, comparison with computerfan produced:
+
+| Case | Different bytes | Maximum byte difference |
+|---|---:|---:|
+| `\ortho0` | 191 | 1 level |
+| `\ortho1` | 17,098 | 129 levels |
+
+After the correction:
+
+| Case | Different bytes | Maximum byte difference |
+|---|---:|---:|
+| `\ortho0` | 191 | 1 level |
+| `\ortho1` | 326 | 1 level |
+
+Only `ortho-orthographic` changed relative to the previous build. The
+`ortho-perspective`, X-only blur, Y-only blur, combined blur, animated blur,
+four `\fshp` cases, and six `\blend` cases remained byte-for-byte unchanged.
+All six `\blend` cases also continue to match the computerfan reference
+exactly. The residual 326-byte `\ortho1` difference, whose maximum difference
+is one level, is consistent with minor rounding or rasterization differences
+between the two code bases and is not treated as a known rendering error.
 
 Functional x86 validation requires a compatible 32-bit host. The repository CI
 currently verifies x86 compilation, not x86 rendered output.
